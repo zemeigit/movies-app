@@ -1,15 +1,13 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine' 
-            args '-p 8000:8000' 
-        }
-    }
+    agent any
+    tools {nodejs "ZemeiNode"}
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
+                git 'https://github.com/zemeigit/movies-app'
                 sh 'cd client'
-                sh 'npm install' 
+                sh 'npm run build'
+                sh 'serve -s build -p 8000'
             }
         }
     }
